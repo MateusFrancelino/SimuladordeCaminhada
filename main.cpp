@@ -4,9 +4,6 @@
 using namespace std;
 
 
-void Texturas(SDL_Texture* cavparado,SDL_Renderer* render){
- cavparado=Carrega("cavaleiroparado.bmp",render);
-}
 
 #undef main
 int main()
@@ -18,16 +15,9 @@ int main()
     const int velocidade = 10;
 
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// \brief Cavaleiro
-    ///
     Player Cavaleiro;
     CriaCavaleiro(&Cavaleiro);
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// \brief inimigo
-    ///
     Player inimigo;
-
     Criainimigo(&inimigo);
 
 
@@ -54,15 +44,10 @@ int main()
     SDL_Event evento;
     SDL_Window* janela = SDL_CreateWindow("Simulador de Caminhada",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1280,720,0);
     SDL_Renderer* render = SDL_CreateRenderer(janela,-1,0);
-    SDL_Texture* textura = NULL;
     SDL_SetRenderDrawColor(render,0,100,0,0);
-
-
-
 
     SDL_Texture* cavparado=Carrega("cavaleiroparado.bmp",render);
     SDL_Texture* atacar=Carrega("cavaleiroataque.bmp",render);
-    SDL_Texture* montain=Carrega("montain.bmp",render);
     SDL_Texture* cavaleiroanda= Carrega("cavaleiroandando.bmp",render);
     SDL_Texture* chao=Carrega("chao.bmp",render);
     SDL_Texture* sky=Carrega("sky.bmp",render);
@@ -74,21 +59,17 @@ int main()
 
 
     while(!GameOver){
+
+
+        SDL_RenderClear (render);
+
+
         movimento++;
         SDL_Event evento;
         int x=0;
         int y=0;
 
-        Cavaleiro.origem.x=(camera.x%8)*42;
-        Cavaleiro.ataqueorigem.x=(movimento%10)*80;
-        Cavaleiro.paradorigem.x=(movimento%4)*42;
-        if (movimento%2==0){
-        Cavaleiro.paradorigem.x=(movimento%4)*42;
-        inimigo.paradorigem.x=(movimento%11)*24;
-        inimigo.origem.x=(camera.x%13)*22;
-        inimigo.ataqueorigem.x=(movimento%8)*30;
-        inimigo.adicional.x=(morte%15)*33;
-        }
+        Movimento(&Cavaleiro,&inimigo,&camera,movimento,morte);
 
         while(SDL_PollEvent(&evento)){
             switch(evento.type){
@@ -142,17 +123,12 @@ int main()
         if(b[0])
         {
             if(170 <inimigo.destino.x&&inimigo.vida>0){
-            inimigo.paradodestino->x-=10;
-            inimigo.ataquedestino.x=inimigo.paradodestino->x;
-            x+=velocidade;
-            camera.x+=velocidade;
+                Paredes(&inimigo,&camera,x,velocidade);
+
             }
             else if (inimigo.vida<1){
-                    inimigo.paradodestino->x-=10;
-                    inimigo.ataquedestino.x=inimigo.paradodestino->x;
-                    x+=velocidade;
-                    camera.x+=velocidade;
-                }
+                Paredes(&inimigo,&camera,x,velocidade);
+            }
 
 
             if(camera.x>5108-1277)
@@ -164,11 +140,10 @@ int main()
             camera.x-=velocidade;
             if(camera.x<=0)
                 camera.x=3831;
+                                }
 
-        }
 
 
-       SDL_RenderClear (render);
 
 
        SDL_RenderClear (render);
@@ -224,9 +199,8 @@ int main()
            inimigo.vida=10;
        }
        SDL_RenderPresent(render);
-       SDL_Delay(1000/60);
-
-    }
+       SDL_Delay(1000/30);
+                                  }
 
 
     SDL_DestroyTexture(atacar);

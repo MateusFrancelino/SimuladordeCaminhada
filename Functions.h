@@ -37,6 +37,8 @@ struct Mapa {
 SDL_Texture *Carrega (const char* imgtx,SDL_Renderer* render);
 void CriaCavaleiro(Player* Cavaleiro);
 void Criainimigo(Player *inimigo);
+void Paredes(Player* inimigo,SDL_Rect* camera,int x,int velocidade);
+void Movimento(Player* Cavaleiro,Player* inimigo,SDL_Rect *camera ,int movimento,int morte);
 
 
 

@@ -32,10 +32,10 @@ SDL_Texture*Carrega(const char* imgtx,SDL_Renderer* render){
     Cavaleiro->paradorigem.h=42;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// \param inimigo
+/// \brief Criainimigo
 ///
 void Criainimigo(Player *inimigo){
-    inimigo->vida=1;
+    inimigo->vida=10;
     inimigo->paradorigem.y=0;
     inimigo->paradorigem.w=24;
     inimigo->paradorigem.h=32;
@@ -58,4 +58,32 @@ void Criainimigo(Player *inimigo){
     inimigo->adicional.w=33;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// \brief Paredes
+///
+void Paredes(Player* inimigo,SDL_Rect* camera,int x,int velocidade){
+    inimigo->paradodestino->x-=10;
+    inimigo->ataquedestino.x=inimigo->paradodestino->x;
+    x+=velocidade;
+    camera->x+=velocidade;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// \brief Movimento
+///
+void Movimento(Player* Cavaleiro,Player* inimigo,SDL_Rect *camera ,int movimento,int morte){
+
+    Cavaleiro->origem.x=(camera->x%8)*42;
+
+    inimigo->ataqueorigem.x=(movimento%8)*30;
+
+    if (movimento%3==0){
+        Cavaleiro->ataqueorigem.x=(movimento%10)*80;
+
+        Cavaleiro->paradorigem.x=(movimento%4)*42;
+        inimigo->paradorigem.x=(movimento%11)*24;
+        inimigo->origem.x=(camera->x%13)*22;
+
+        inimigo->adicional.x=(morte%15)*33;
+    }
+
+}
 
