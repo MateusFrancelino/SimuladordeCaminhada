@@ -4,9 +4,9 @@
 using namespace std;
 
 
-/*void Texturas(render,const char){
-
-}*/
+void Texturas(SDL_Texture* cavparado,SDL_Renderer* render){
+ cavparado=Carrega("cavaleiroparado.bmp",render);
+}
 
 #undef main
 int main()
@@ -141,16 +141,20 @@ int main()
 
         if(b[0])
         {
-            if(170 <inimigo.destino.x&&inimigo.vida==1){
+            if(170 <inimigo.destino.x&&inimigo.vida>0){
             inimigo.paradodestino->x-=10;
-            }
-            else if (inimigo.vida!=1){
-                    inimigo.paradodestino->x-=10;
-                }
-
             inimigo.ataquedestino.x=inimigo.paradodestino->x;
             x+=velocidade;
             camera.x+=velocidade;
+            }
+            else if (inimigo.vida<1){
+                    inimigo.paradodestino->x-=10;
+                    inimigo.ataquedestino.x=inimigo.paradodestino->x;
+                    x+=velocidade;
+                    camera.x+=velocidade;
+                }
+
+
             if(camera.x>5108-1277)
                 camera.x=0;
 
@@ -166,19 +170,17 @@ int main()
 
        SDL_RenderClear (render);
 
-       SDL_Rect Cavaleirodestino;
 
        SDL_RenderClear (render);
        SDL_RenderCopy(render,sky,NULL,NULL);
-       //SDL_RenderCopy(render,montain,NULL,NULL);//
        SDL_RenderCopy(render,chao,&camera,&cameradestino);
        if (ataque==1){
 
            SDL_RenderCopy(render,atacar,&Cavaleiro.ataqueorigem,&Cavaleiro.ataquedestino);
-           if (inimigo.destino.x<=180&&inimigo.vida==1){
+           if (inimigo.destino.x<=180&&inimigo.vida>0){
                SDL_RenderCopy(render,esqhit,&inimigo.ataqueorigem,&inimigo.ataquedestino);
                if (Cavaleiro.ataqueorigem.x==0)
-                    inimigo.vida=0;
+                    inimigo.vida--;
            }
            else if (inimigo.destino.x<=180&&inimigo.vida==0){
 
@@ -204,7 +206,6 @@ int main()
        }
        else{
            movimento=0;
-          // SDL_RenderCopy(render,esqandando,&inimigo.origem,&inimigo.destino);
            if (inimigo.destino.x<=180&&inimigo.vida==0){
 
                SDL_RenderCopy(render,esqmorto,&inimigo.adicional,&inimigo.destino);
@@ -218,11 +219,12 @@ int main()
        }
 
 
-       if(inimigo.destino.x<0){
+       if(inimigo.destino.x+22<0){
            inimigo.destino.x=1280;
+           inimigo.vida=10;
        }
        SDL_RenderPresent(render);
-       SDL_Delay(1000/20);
+       SDL_Delay(1000/60);
 
     }
 
