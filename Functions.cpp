@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 
 SDL_Texture*Carrega(const char* imgtx,SDL_Renderer* render){
+    cout<<imgtx<<endl;
     SDL_Surface* img=SDL_LoadBMP(imgtx);
     SDL_Texture* textura=SDL_CreateTextureFromSurface(render,img);
     SDL_FreeSurface(img);
@@ -12,7 +13,7 @@ SDL_Texture*Carrega(const char* imgtx,SDL_Renderer* render){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// \brief Cavaleiro
 ///
-    void CriaCavaleiro(Player* Cavaleiro){
+void CriaCavaleiro(Player* Cavaleiro,SDL_Renderer* render){
     Cavaleiro->origem.y=0;
     Cavaleiro->origem.w=42;
     Cavaleiro->origem.h=42;
@@ -26,12 +27,18 @@ SDL_Texture*Carrega(const char* imgtx,SDL_Renderer* render){
     Cavaleiro->paradorigem.y=0;
     Cavaleiro->paradorigem.w=42;
     Cavaleiro->paradorigem.h=42;
+
+    Cavaleiro->Tparado=Carrega("cavaleiroparado.bmp",render);
+    Cavaleiro->Tatacar=Carrega("cavaleiroataque.bmp",render);
+    Cavaleiro->Tandando=Carrega("cavaleiroandando.bmp",render);
+
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// \brief Criainimigo
 ///
-void Criainimigo(Player *inimigo){
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Criainimigo(Player *inimigo,SDL_Renderer* render){
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     inimigo[0].vida=3;
     inimigo[0].paradorigem.y=0;
     inimigo[0].paradorigem.w=24;
@@ -49,7 +56,16 @@ void Criainimigo(Player *inimigo){
     inimigo[0].adicional.y=0;
     inimigo[0].adicional.h=32;
     inimigo[0].adicional.w=33;
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    inimigo[0].Tparado=Carrega("magicoparado.bmp",render);
+    inimigo[0].Tatacar=Carrega("esqhit.bmp",render);
+    inimigo[0].Tandando=Carrega("esqandando.bmp",render);
+    inimigo[0].Tmorte=Carrega("esqmorto.bmp",render);
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     inimigo[1].vida=3;
     inimigo[1].paradorigem.y=0;
     inimigo[1].paradorigem.w=24;
@@ -67,7 +83,14 @@ void Criainimigo(Player *inimigo){
     inimigo[1].adicional.y=0;
     inimigo[1].adicional.h=32;
     inimigo[1].adicional.w=33;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    inimigo[1].Tparado=Carrega("magicoparado1.bmp",render);
+    inimigo[1].Tatacar=Carrega("esqhit1.bmp",render);
+    inimigo[1].Tandando=Carrega("esqandando.bmp",render);
+    inimigo[1].Tmorte=Carrega("esqmorto.bmp",render);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     inimigo[2].vida=3;
     inimigo[2].paradorigem.y=0;
     inimigo[2].paradorigem.w=24;
@@ -85,6 +108,12 @@ void Criainimigo(Player *inimigo){
     inimigo[2].adicional.y=0;
     inimigo[2].adicional.h=32;
     inimigo[2].adicional.w=33;
+
+    inimigo[2].Tparado=Carrega("magicoparado.bmp",render);
+    inimigo[2].Tatacar=Carrega("esqhit.bmp",render);
+    inimigo[2].Tandando=Carrega("esqandando.bmp",render);
+    inimigo[2].Tmorte=Carrega("esqmorto.bmp",render);
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     inimigo[3].vida=3;
     inimigo[3].paradorigem.y=0;
@@ -93,31 +122,36 @@ void Criainimigo(Player *inimigo){
     inimigo[3].origem.y=0;
     inimigo[3].origem.w=22;
     inimigo[3].origem.h=33;
-    inimigo[3].destino.w=100;
-    inimigo[3].destino.h=120;
+    inimigo[3].destino.w=200;
+    inimigo[3].destino.h=220;
     inimigo[3].destino.x=300;
-    inimigo[3].destino.y=600;
+    inimigo[3].destino.y=510;
     inimigo[3].ataqueorigem.y=0;
     inimigo[3].ataqueorigem.w=24;
     inimigo[3].ataqueorigem.h=32;
     inimigo[3].adicional.y=0;
     inimigo[3].adicional.h=32;
     inimigo[3].adicional.w=33;
+
+    inimigo[3].Tparado=Carrega("magicoparado1.bmp",render);
+    inimigo[3].Tatacar=Carrega("esqhit1.bmp",render);
+    inimigo[3].Tandando=Carrega("esqandando.bmp",render);
+    inimigo[3].Tmorte=Carrega("esqmorto.bmp",render);
+
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// \brief Paredes
 ///
-void Paredes(Player* inimigo,SDL_Rect* camera,int x,int velocidade){
+/*void Paredes(Player* inimigo,SDL_Rect* camera,int x,int velocidade){
     inimigo->paradodestino->x-=10;
-    inimigo->ataquedestino->x=inimigo->paradodestino->x;
+    inimigo->ataquedestino.x=inimigo->paradodestino->x;
     x+=velocidade;
     camera->x+=velocidade;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// \brief Movimento
-///
+}*/
+
 void Movimento(Player* Cavaleiro,Player* inimigo,SDL_Rect *camera ,int movimento,int morte){
 
     Cavaleiro->origem.x=(camera->x%8)*42;
@@ -135,4 +169,3 @@ void Movimento(Player* Cavaleiro,Player* inimigo,SDL_Rect *camera ,int movimento
     }
 
 }
-
