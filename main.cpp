@@ -42,7 +42,7 @@ int main()
     Player inimigo[4];
     Criainimigo(inimigo,render);
 
-    int enemy=0;
+    int enemy=2;
 
 
     SDL_Rect camera;
@@ -78,6 +78,7 @@ int main()
             SDL_DestroyTexture(inimigo[enemy].Tandando );
              enemy++;
              morte=14;
+             inimigo[enemy].destino.x=1280;
              if (enemy==4)
                  GameOver=true;
 
@@ -113,8 +114,8 @@ Movimento(&Cavaleiro,&inimigo[enemy],&camera,movimento,morte);
                 case SDLK_x:
                     camera.x+=camera.x*0.2;
                     break;
-                    if(pulo==false){
-                    case SDLK_UP:
+                if(pulo==false){
+                        case SDLK_UP:
                         if (Cavaleiro.destino.y>500){
                             Cavaleiro.destino.y-=50;
                             pulo=true;}
@@ -171,20 +172,13 @@ Movimento(&Cavaleiro,&inimigo[enemy],&camera,movimento,morte);
         if(b[0])
         {
             if(170 <inimigo[enemy].destino.x&&inimigo[enemy].vida>0){
-                /////////////////Paredes(&inimigo[enemy],&camera,x,velocidade);
-                inimigo[enemy].paradodestino->x-=10;
-                inimigo[enemy].ataquedestino->x=inimigo[enemy].paradodestino->x;
-                x+=velocidade;
-                camera.x+=velocidade;
+
+                Paredes(&inimigo[enemy],&camera,x,velocidade);
             }
 
 
             else if (inimigo[enemy].vida<1){
-                //Paredes(&inimigo[enemy],&camera,x,velocidade);
-                inimigo[enemy].paradodestino->x-=10;
-                inimigo[enemy].ataquedestino->x=inimigo[enemy].paradodestino->x;
-                x+=velocidade;
-                camera.x+=velocidade;
+                Paredes(&inimigo[enemy],&camera,x,velocidade);
             }
 
 
@@ -255,7 +249,7 @@ Movimento(&Cavaleiro,&inimigo[enemy],&camera,movimento,morte);
 
 
         SDL_RenderPresent(render);
-        SDL_Delay(1000/30);
+        SDL_Delay(1000/14);
     }
 
 

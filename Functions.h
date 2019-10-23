@@ -4,6 +4,19 @@
 #include <stdlib.h>
 using namespace std;
 #include <SDL2/SDL.h>
+
+
+struct val_anim{
+    //F= Numero de frames
+    //P= Tamanho em pixeis
+    int ParadoF=0;
+    int ParadoP=0;
+    int AtaqueF=0;
+    int AtaqueP=0;
+    int MorteF=0;
+    int MorteP=0;
+
+};
 struct Player{
     int vida = 3;
     SDL_Rect origem={0,0,0,0};
@@ -17,15 +30,14 @@ struct Player{
     SDL_Texture* Tatacar;
     SDL_Texture* Tandando;
     SDL_Texture* Tmorte;
-
+    val_anim anima ;
 
 };
 
 
-struct OBS{
-    SDL_Rect origem={0,0,0,0};
-    SDL_Rect destino={0,0,0,0};
-};
+
+
+
 
 struct Mapa {
 
