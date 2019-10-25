@@ -74,16 +74,7 @@ int main()
     bool Final=false;
     bool parado=1;
     bool pulo=true;
-    while(Inicio){
 
-         SDL_RenderCopy(render,sky,NULL,NULL);
-         SDL_RenderCopy(render,chao,&camera,&cameradestino);
-
-
-        SDL_RenderPresent(render);
-        SDL_Delay(1000/24);
-
-    }
 
 
 
