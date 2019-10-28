@@ -4,20 +4,6 @@
 using namespace std;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #undef main
 int main()
 {
@@ -28,21 +14,53 @@ int main()
     SDL_Renderer* render = SDL_CreateRenderer(janela,-1,0);
     SDL_SetRenderDrawColor(render,0,100,0,0);
 
-    //SDL_Texture* cavparado=Carrega("cavaleiroparado.bmp",render);
-    //SDL_Texture* atacar=Carrega("cavaleiroataque.bmp",render);
-    //SDL_Texture* cavaleiroanda= Carrega("cavaleiroandando.bmp",render);
-
     SDL_Texture* chao=Carrega("chao.bmp",render);
     SDL_Texture* sky=Carrega("sky.bmp",render);
 
 
-    //SDL_Texture* esqparado=Carrega("magicoparado.bmp",render);
-    //SDL_Texture* esqandando =Carrega("esqandando.bmp",render);
-    //SDL_Texture* esqhit= Carrega("esqhit.bmp",render);
-    //SDL_Texture* esqmorto=Carrega("esqmorto.bmp",render);
+    Menu menu;
+    menu.imagemenu=Carrega("menu.bmp",render);
+    menu.caveiramenu=Carrega("caveira_fogo.bmp",render);
+    menu.origem.y=0;
+    menu.origem.h=112;
+    menu.origem.w=96;
+    menu.Destino.x=680;
+    menu.Destino.y=232;
+    menu.Destino.w=100;
+    menu.Destino.h=100;
+    menu.origemZ.h=100;
+    menu.origemZ.w=100;
+    menu.destinoZ.x=163;
+    menu.destinoZ.y=560;
+    menu.destinoZ.h=42;
+    menu.destinoZ.w=42;
+    menu.Z=Carrega("Z.bmp",render);
+
+    menu.X=Carrega("X.bmp",render);
+    menu.origemX.h=100;
+    menu.origemX.w=100;
+    menu.destinoX.h=42;
+    menu.destinoX.w=42;
+    menu.destinoX.x=260;
+    menu.destinoX.y=560;
+    menu.destinobloq.w=150;
+    menu.destinobloq.h=150;
+    menu.destinobloq.x=210;
+    menu.destinobloq.y=600;
 
 
 
+
+
+
+
+
+
+
+
+    int x=0;
+    int enemy=0;
+    int escolha=0;
     int movimento=0;
     int pulotempo=0;
     const int velocidade = 10;
@@ -53,8 +71,8 @@ int main()
     Player inimigo[4];
     Criainimigo(inimigo,render);
 
-    int enemy=0;
 
+    SDL_Event evento;
 
     SDL_Rect camera;
     camera.x=0;
@@ -69,17 +87,125 @@ int main()
     cameradestino.x=0;
 
     bool GameOver=false;
-    bool b[2]={0,0};
+
     bool Inicio=true;
     bool Final=false;
     bool parado=1;
     bool pulo=true;
+    bool b[2]={0,0};
+
+
+
+    while(!Final){
+
+    while(Inicio){
+        SDL_RenderClear(render);
+
+        menu.movimento++;
+        menu.origem.x=(menu.movimento%8)*96;
+        Cavaleiro.ataqueorigem.x=(menu.movimento%10)*80;
+        Cavaleiro.bloqorigem.x=(5)*42;
+
+        while(SDL_PollEvent(&evento)){
+            switch(evento.type){
+            case SDL_QUIT:
+                GameOver=false;
+                break;
+
+                  case SDL_KEYDOWN:
+
+
+                      switch (evento.key.keysym.sym) {
+                      case SDLK_DOWN:
+
+                          escolha++;
+
+                          break;
+                      case SDLK_UP:
+
+                          escolha--;
+
+                          break;
+
+                      case SDLK_RETURN:
+                          if(escolha==0){
+                              Inicio=false;
+                              GameOver=false;
+                          }
+                          else if(escolha==1){
+                              Inicio=false;
+                              GameOver=true;
+                              Final=true;
+                          }
+
+                          break;
+                      }
 
 
 
 
+                      break;
+
+
+            }
+        }
+
+       if(escolha>1){
+            escolha=0;
+        }
+        else if(escolha<0){
+            escolha=1;
+        }
+
+
+        if (escolha==0){
+            menu.Destino.x=680;
+            menu.Destino.y=232;
+        }
+        else if (escolha==1){
+            menu.Destino.x=636;
+            menu.Destino.y=348;
+
+            }
+
+
+
+         SDL_RenderCopy(render,sky,NULL,NULL);
+         SDL_RenderCopy(render,chao,&camera,&cameradestino);
+
+         SDL_RenderCopy(render,Cavaleiro.Tatacar,&Cavaleiro.ataqueorigem,&Cavaleiro.destino);
+         SDL_RenderCopy(render,menu.imagemenu,NULL,NULL);
+         SDL_RenderCopy(render,menu.caveiramenu,&menu.origem,&menu.Destino);
+         SDL_RenderCopy(render,menu.X,&menu.origemX,&menu.destinoX);
+         SDL_RenderCopy(render,menu.Z,&menu.origemZ,&menu.destinoZ);
+         SDL_RenderCopy(render,Cavaleiro.TBloqueio,&Cavaleiro.bloqorigem,&menu.destinobloq);
+
+
+
+         SDL_RenderPresent(render);
+
+         SDL_Delay(1000/10);
+
+    }
+  x=0;
+  enemy=0;
+  escolha=0;
+  movimento=0;
+  pulotempo=0;
+  parado=1;
+  pulo=true;
+  b[0]=0;
+  b[1]=0;
+
+
+
+    SDL_RenderClear(render);
 
     while(!GameOver){
+        if (inimigo[3].anima.MorteF<1&&inimigo->info.vida==0){
+            GameOver=true;
+            Inicio=true;
+        }
         movimento++;
         if(inimigo[enemy].destino.x-24<0){
 
@@ -94,9 +220,7 @@ int main()
                 inimigo[enemy].destino.x=1280;
             }
 
-            if (enemy==4){
-                GameOver=true;
-            }
+
         }
         if (inimigo[enemy].anima.AtaqueF<2){
             inimigo[enemy].anima.AtaqueF=auxanima[enemy].AtaqueF;
@@ -118,8 +242,11 @@ int main()
              Cavaleiro.anima.MorteF--;
          }
          else{
-             GameOver=true;
+
              Cavaleiro.anima.MorteF=0;
+             GameOver=true;
+             Inicio=true;
+             Final=false;
          }
 
      }
@@ -127,8 +254,8 @@ int main()
         SDL_RenderClear (render);
 
 
-        SDL_Event evento;
-        int x=0;
+
+
 
         Movimento(&Cavaleiro,&inimigo[enemy],&camera,movimento);
 
@@ -150,14 +277,14 @@ int main()
                 case SDLK_x:
                     Cavaleiro.info.defesa=1;
                     break;
-                    //if(pulo==false){
-                    case SDLK_UP:
-                        if (Cavaleiro.destino.y>500){
-                            Cavaleiro.destino.y-=50;
-                            pulo=true;}
+                //if(pulo==false){
+                case SDLK_UP:
+                    if (Cavaleiro.destino.y>500){
+                        Cavaleiro.destino.y-=100;
+                        pulo=true;}
 
-                        break;
-                   // }
+                    break;
+                    // }
                 case SDLK_LEFT:
                     b[1]=1;
                     parado=0;
@@ -199,7 +326,6 @@ int main()
 
         if(pulo==true && pulotempo>=1){
             pulotempo--;
-            cout<<"pulando";
         }
         else if (pulotempo==0){
             Cavaleiro.destino.y=600;
@@ -242,11 +368,20 @@ int main()
         SDL_Delay(1000/24);
     }
 
+    SDL_DestroyTexture(inimigo[enemy].Tmorte );
+    SDL_DestroyTexture(inimigo[enemy].Tatacar );
+    SDL_DestroyTexture(inimigo[enemy].Tparado );
+    SDL_DestroyTexture(inimigo[enemy].Tandando );
 
-    //SDL_DestroyTexture(atacar);
-    //SDL_DestroyTexture(cavparado);
+    CriaCavaleiro(&Cavaleiro,render);
+    Criainimigo(inimigo,render);
+    backup_anima(auxanima);
+
+    }
+
+    SDL_DestroyTexture(menu.imagemenu);
+    SDL_DestroyTexture(menu.caveiramenu);
     SDL_DestroyTexture(chao);
-    //SDL_DestroyTexture(cavaleiroanda);
     SDL_DestroyRenderer(render);
     SDL_DestroyWindow(janela);
     SDL_Quit();

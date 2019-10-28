@@ -11,6 +11,26 @@ struct val_info{
     bool defesa=0;
 
 };
+
+struct Menu{
+    SDL_Texture*imagemenu;
+    SDL_Texture*caveiramenu;
+    SDL_Rect origem{0,0,0,0};
+    SDL_Rect Destino{0,0,0,0};
+    int movimento=0;
+    SDL_Texture* Z;
+    SDL_Rect origemZ{0,0,0,0};
+    SDL_Rect destinoZ{0,0,0,0};
+    SDL_Texture*X;
+    SDL_Rect origemX{0,0,0,0};
+    SDL_Rect destinoX {0,0,0,0};
+
+    SDL_Rect destinobloq{0,0,0,0};
+
+};
+
+
+
 struct val_anim{
     //F= Numero de frames
     //P= Tamanho em pixeis

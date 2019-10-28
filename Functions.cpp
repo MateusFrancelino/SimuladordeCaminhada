@@ -33,6 +33,7 @@ void CriaCavaleiro(Player* Cavaleiro,SDL_Renderer* render){
     Cavaleiro->morte.y=0;
     Cavaleiro->morte.w=32;
     Cavaleiro->morte.h=32;
+    Cavaleiro->info.vida=1;
 
 
     Cavaleiro->Tparado=Carrega("cavaleiroparado.bmp",render);
@@ -83,6 +84,8 @@ void Criainimigo(Player *inimigo,SDL_Renderer* render){
     inimigo[0].ataqueorigem.w=38;
     inimigo[0].ataqueorigem.h=37;
 
+    inimigo[0].info.vida=3;
+
 
 
     inimigo[0].Tparado=Carrega("magicoparado.bmp",render);
@@ -123,6 +126,7 @@ void Criainimigo(Player *inimigo,SDL_Renderer* render){
     inimigo[1].ataqueorigem.w=64;
     inimigo[1].ataqueorigem.h=80;
 
+    inimigo[1].info.vida=3;
 
 
     inimigo[1].Tparado=Carrega("ghost-parado.bmp",render);
@@ -166,6 +170,8 @@ void Criainimigo(Player *inimigo,SDL_Renderer* render){
     inimigo[2].ataqueorigem.h=50;
 
 
+    inimigo[2].info.vida=3;
+
     inimigo[2].Tparado=Carrega("bandidopack.bmp",render);
     inimigo[2].TDano=Carrega("bandidopack.bmp",render);
     inimigo[2].Tandando=Carrega("bandidopack.bmp",render);
@@ -204,6 +210,10 @@ void Criainimigo(Player *inimigo,SDL_Renderer* render){
     inimigo[3].morte.y=0;
     inimigo[3].morte.h=128;
     inimigo[3].morte.w=128;
+
+
+
+    inimigo[3].info.vida=12;
 
     inimigo[3].Tparado=Carrega("demonparado.bmp",render);
     inimigo[3].TDano=Carrega("demon-hit.bmp",render);
